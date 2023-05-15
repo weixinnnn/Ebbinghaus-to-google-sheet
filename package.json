@@ -1,0 +1,31 @@
+{
+  "name": "ebbinghaus-to-google-sheet",
+  "version": "1.0.0",
+  "description": "Takes input from terminal and dump into Google Sheet following Ebbinghaus's learning curve",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn ./src/index.ts",
+    "start": "ts-node ./src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weixinnnn/Ebbinghaus-to-google-sheet.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/weixinnnn/Ebbinghaus-to-google-sheet/issues"
+  },
+  "homepage": "https://github.com/weixinnnn/Ebbinghaus-to-google-sheet#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.1.4",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
