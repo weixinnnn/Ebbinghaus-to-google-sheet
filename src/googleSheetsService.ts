@@ -40,11 +40,22 @@ const createOverviewSheet = async () => {
   const spreadsheet = await getSpreadsheet();
   const sheet = await spreadsheet.addSheet({
     title: "Overview",
-    headerValues: ["Date", "Phrase", "Recurring"],
+    headerValues: [
+      "Phrase",
+      "Recurring",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Remarks",
+    ],
   });
   await sheet.addRows([
     [
-      "",
       "",
       "1st day",
       "2nd day",
@@ -57,7 +68,7 @@ const createOverviewSheet = async () => {
     ],
   ]);
 
-  // Merge Date header
+  // Merge Phrase header
   // @ts-ignore
   await sheet.mergeCells({
     startRowIndex: 0,
@@ -65,21 +76,13 @@ const createOverviewSheet = async () => {
     startColumnIndex: 0,
     endColumnIndex: 1,
   });
-  // Merge Phrase header
-  // @ts-ignore
-  await sheet.mergeCells({
-    startRowIndex: 0,
-    endRowIndex: 2,
-    startColumnIndex: 1,
-    endColumnIndex: 2,
-  });
   // Merge Recurring header
   // @ts-ignore
   await sheet.mergeCells({
     startRowIndex: 0,
     endRowIndex: 1,
-    startColumnIndex: 2,
-    endColumnIndex: 10,
+    startColumnIndex: 1,
+    endColumnIndex: 9,
   });
   return sheet;
 };
