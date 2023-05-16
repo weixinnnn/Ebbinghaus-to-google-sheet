@@ -79,4 +79,17 @@ const createOverviewSheet = async () => {
 
 const getOverviewSheet = () => getSheet("Overview", createOverviewSheet);
 
-export { getOverviewSheet };
+const createLearningSheet = async (title: string) => {
+  const spreadsheet = await getSpreadsheet();
+  const sheet = await spreadsheet.addSheet({
+    title,
+    headerValues: ["Phrase", "Recurring"],
+  });
+
+  return sheet;
+};
+
+const getLearningSheet = (title: string) =>
+  getSheet(title, () => createLearningSheet(title));
+
+export { getOverviewSheet, getLearningSheet };
