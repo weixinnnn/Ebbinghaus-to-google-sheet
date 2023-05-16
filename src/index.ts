@@ -1,16 +1,28 @@
-import express, { Request, Response, Application } from "express";
-import { getOverviewSheet } from "./googleSheetsService";
+import { getLearningSheet, getOverviewSheet } from "./googleSheetsService";
+import moment from "moment";
+import { RecurringKey, getFormattedDate, recurring } from "./utils";
 require("dotenv").config();
 
-const app: Application = express();
+(async () => {
+  const phrase = process.argv[2];
+  if (!phrase) return;
 
-app.get("/", (req: Request, res: Response): void => {
-  res.send("Hello Typescript with Node.js!");
-});
+  const now = moment();
+  const learningCurves = [];
+  const recurringPeriods = Object.keys(recurring) as unknown as RecurringKey;
 
-app.listen(8000, (): void => {
-  console.log(`Server Running here 👉 https://localhost:8000`);
-});
+  for (let i = 0; i < recurringPeriods.length; i++) {
+    const [, duration, timeUnit]: any[] =
+      recurringPeriods[i].match(/(\d+)([a-zA-Z]+)/) || [];
+    const date = getFormattedDate(now.clone().add(Number(duration), timeUnit));
+    learningCurves.push(date);
 
-console.log(process.argv[2]);
-getOverviewSheet();
+    const learningSheet = await getLearningSheet(date);
+    await learningSheet.addRows([
+      [phrase, recurring[recurringPeriods[i] as RecurringKey]],
+    ]);
+  }
+
+  const overviewSheet = await getOverviewSheet();
+  await overviewSheet.addRows([[phrase, ...learningCurves]]);
+})();

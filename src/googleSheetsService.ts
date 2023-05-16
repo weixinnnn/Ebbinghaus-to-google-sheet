@@ -39,16 +39,17 @@ const getSheet = async (
 
 const createOverviewSheet = async () => {
   const spreadsheet = await getSpreadsheet();
+  const recurringPeriods = Object.values(recurring);
   const sheet = await spreadsheet.addSheet({
     title: "Overview",
     headerValues: [
       "Phrase",
       "Recurring",
-      ...Object.keys(recurring).map(() => ""),
+      ...Array(recurringPeriods.length - 1).fill(""),
       "Remarks",
     ],
   });
-  await sheet.addRows([["", ...Object.values(recurring)]]);
+  await sheet.addRows([["", ...recurringPeriods]]);
 
   // Merge Phrase header
   // @ts-ignore
@@ -91,5 +92,10 @@ const createLearningSheet = async (title: string) => {
 
 const getLearningSheet = (title: string) =>
   getSheet(title, () => createLearningSheet(title));
+
+const insertOverviewSheet = async (phrase: string) => {
+  const overviewSheet = await getOverviewSheet();
+  await overviewSheet.addRow([phrase]);
+};
 
 export { getOverviewSheet, getLearningSheet };
