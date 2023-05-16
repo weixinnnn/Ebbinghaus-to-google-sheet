@@ -1,5 +1,5 @@
 import express, { Request, Response, Application } from "express";
-import { getSheet } from "./googleSheetsService";
+import { getOverviewSheet } from "./googleSheetsService";
 require("dotenv").config();
 
 const app: Application = express();
@@ -13,4 +13,4 @@ app.listen(8000, (): void => {
 });
 
 console.log(process.argv[2]);
-getSheet("test");
+getOverviewSheet();
