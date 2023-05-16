@@ -3,6 +3,7 @@ import {
   GoogleSpreadsheetWorksheet,
 } from "google-spreadsheet";
 import googleConfig from "../google.json";
+import { recurring } from "./utils";
 
 let isSpreadsheetLoaded = false;
 let _spreadsheet: GoogleSpreadsheet;
@@ -43,30 +44,11 @@ const createOverviewSheet = async () => {
     headerValues: [
       "Phrase",
       "Recurring",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
+      ...Object.keys(recurring).map(() => ""),
       "Remarks",
     ],
   });
-  await sheet.addRows([
-    [
-      "",
-      "1st day",
-      "2nd day",
-      "4th day",
-      "7th day",
-      "15th day",
-      "1st month",
-      "3rd month",
-      "6th month",
-    ],
-  ]);
+  await sheet.addRows([["", ...Object.values(recurring)]]);
 
   // Merge Phrase header
   // @ts-ignore
@@ -83,6 +65,14 @@ const createOverviewSheet = async () => {
     endRowIndex: 1,
     startColumnIndex: 1,
     endColumnIndex: 9,
+  });
+  // Merge Remark header
+  // @ts-ignore
+  await sheet.mergeCells({
+    startRowIndex: 0,
+    endRowIndex: 2,
+    startColumnIndex: 9,
+    endColumnIndex: 10,
   });
   return sheet;
 };
