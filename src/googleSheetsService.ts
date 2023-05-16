@@ -1,5 +1,5 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
-import googleConfig from "../ebbinghaus-386814-342e3fa146ef.json";
+import googleConfig from "../google.json";
 
 let isSpreadsheetLoaded = false;
 let _spreadsheet: GoogleSpreadsheet;
@@ -27,7 +27,11 @@ const getSpreadsheet = async () => {
 
 const getSheet = async (name: string) => {
   const spreadsheet = await getSpreadsheet();
-  return spreadsheet.sheetsByTitle[name];
+  let sheet = spreadsheet.sheetsByTitle[name];
+  if (!sheet) {
+    sheet = await spreadsheet.addSheet({ title: name });
+  }
+  return sheet;
 };
 
 export { getSheet };
